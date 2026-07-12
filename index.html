@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Futuristic Dashboard v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #070514 0%, #0d0a1b 50%, #14142b 100%);
+            --panel-bg: rgba(255, 255, 255, 0.02);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --accent-neon: #bf55ec;
+            --accent-cyan: #00e5ff;
+            --accent-green: #00e676;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        /* Glassmorphism Panel Base */
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .panel:hover {
+            border-color: rgba(191, 85, 236, 0.3);
+            box-shadow: 0 12px 40px 0 rgba(191, 85, 236, 0.15);
+            transform: translateY(-5px);
+        }
+
+        /* 1. Header & Live Clock Panel */
+        .header-panel {
+            grid-column: span 12;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: linear-gradient(90deg, rgba(191, 85, 236, 0.05), rgba(0, 229, 255, 0.05));
+        }
+
+        .branding h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-neon), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .branding p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .clock-container {
+            text-align: right;
+        }
+
+        #clock {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+        }
+
+        #date-day {
+            font-size: 14px;
+            color: var(--accent-cyan);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* 2. LIVE TIMER PANEL (NEW & WORKING) */
+        .timer-panel {
+            grid-column: span 12;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .panel-h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+        }
+
+        .panel-h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--accent-cyan);
+            border-radius: 2px;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin: 15px 0;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+        }
+
+        .timer-inputs {
+            margin-bottom: 15px;
+        }
+
+        .timer-inputs input {
+            width: 70px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+            margin: 0 5px;
+            outline: none;
+        }
+
+        .timer-controls button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .timer-controls button.btn-start {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+        .timer-controls button.btn-start:hover {
+            background: var(--accent-green);
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+        }
+
+        .timer-controls button.btn-pause {
+            border-color: #ffea00;
+            color: #ffea00;
+        }
+        .timer-controls button.btn-pause:hover {
+            background: #ffea00;
+            color: #000;
+        }
+
+        .timer-controls button.btn-reset {
+            border-color: #ff1744;
+            color: #ff1744;
+        }
+        .timer-controls button.btn-reset:hover {
+            background: #ff1744;
+            color: #fff;
+        }
+
+        /* 3. Shayari Rotator Panel */
+        .shayari-panel {
+            grid-column: span 12;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shayari-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-neon);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        #shayari-text {
+            font-size: 20px;
+            font-style: italic;
+            color: #e5e7eb;
+            transition: opacity 0.4s ease;
+            max-width: 85%;
+            line-height: 1.6;
+        }
+
+        .shayari-btn {
+            margin-top: 15px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        .shayari-btn:hover {
+            background: var(--accent-neon);
+            border-color: var(--accent-neon);
+            box-shadow: 0 0 10px rgba(191, 85, 236, 0.4);
+        }
+
+        /* 4. Music Player Panel */
+        .music-panel {
+            grid-column: span 5;
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 229, 255, 0.02);
+        }
+
+        .upload-area p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .audio-wrapper {
+            margin-top: 25px;
+        }
+
+        .track-info {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--accent-cyan);
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 30px;
+            outline: none;
+        }
+
+        /* 5. YouTube Panel */
+        .youtube-panel {
+            grid-column: span 7;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-neon);
+        }
+
+        .input-group button {
+            background: var(--accent-neon);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .input-group button:hover {
+            background: #a336c9;
+            box-shadow: 0 0 12px rgba(191, 85, 236, 0.4);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @media (max-width: 900px) {
+            .music-panel, .youtube-panel { grid-column: span 12; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="panel header-panel">
+            <div class="branding">
+                <h1>FANCY DASHBOARD v2</h1>
+                <p>Personalized Time, Music & Entertainment Space</p>
+            </div>
+            <div class="clock-container">
+                <div id="clock">00:00:00 AM</div>
+                <div id="date-day">LOADING DATE & DAY...</div>
+            </div>
+        </div>
+
+        <div class="panel timer-panel">
+            <div class="panel-h2">काउंटडाउन टाइमर (Timer Control)</div>
+            <div class="timer-inputs">
+                <input type="number" id="timer-min" placeholder="Min" min="0" max="60" value="0"> Min
+                <input type="number" id="timer-sec" placeholder="Sec" min="0" max="59" value="10"> Sec
+            </div>
+            <div class="timer-display" id="timer-display">00:10</div>
+            <div class="timer-controls">
+                <button class="btn-start" onclick="startTimer()">Start</button>
+                <button class="btn-pause" onclick="pauseTimer()">Pause</button>
+                <button class="btn-reset" onclick="resetTimer()">Reset</button>
+            </div>
+        </div>
+
+        <div class="panel shayari-panel">
+            <div class="shayari-title">✨ आज की बेस्ट शायरी ✨</div>
+            <div id="shayari-text">"ख्वाहिशों से नहीं गिरते हैं फूल झोली में, कर्म की शाख को हिलाना होगा... कुछ नहीं होगा अंधेरों को कोसने से, अपने हिस्से का दीया खुद ही जलाना होगा।"</div>
+            <button class="shayari-btn" onclick="changeShayari()">अगली शायरी ↻</button>
+        </div>
+
+        <div class="panel music-panel">
+            <div class="panel-h2">म्यूजिक प्लेयर (Upload System)</div>
+            <div class="upload-area" onclick="document.getElementById('audio-upload').click()">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <p style="margin-top: 12px; font-weight: 500;">म्यूजिक फाइल सेलेक्ट करें</p>
+                <p style="font-size: 11px;">(आपका गाना सुरक्षित लोड रहेगा)</p>
+                <input type="file" id="audio-upload" accept="audio/*" onchange="handleAudioUpload(this)">
+            </div>
+            
+            <div class="audio-wrapper">
+                <div class="track-info" id="track-title">कोई गाना लोड नहीं है</div>
+                <audio id="main-audio" controls>
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <div class="panel youtube-panel">
+            <div class="panel-h2">यूट्यूब वीडियो प्लेयर</div>
+            <div class="input-group">
+                <input type="text" id="yt-url" placeholder="यूट्यूब वीडियो का URL यहाँ पेस्ट करें...">
+                <button onclick="loadYouTubeVideo()">लोड करें</button>
+            </div>
+            <div class="video-container">
+                <iframe id="yt-iframe" src="https://www.youtube.com/embed/jfKfPfyJRdk" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. CLOCK & DATE ---
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+            
+            const daysHindi = ["रविवार (Sunday)", "सोमवार (Monday)", "मंगलवार (Tuesday)", "बुधवार (Wednesday)", "गुरुवार (Thursday)", "शुक्रवार (Friday)", "शनिवार (Saturday)"];
+            const dayName = daysHindi[now.getDay()];
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('hi-IN', options);
+            
+            document.getElementById('date-day').textContent = `${dayName} | ${dateStr}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- 2. TIMER CORE LOGIC (WORKING) ---
+        let countdown;
+        let totalSeconds = 10; // default 10 sec
+        let isPaused = true;
+
+        function displayTimer() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const displayStr = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            document.getElementById('timer-display').textContent = displayStr;
+        }
+
+        function startTimer() {
+            if (!isPaused) return; // already running
+
+            // Agar pehli baar chalaya hai toh input se time uthao
+            if (isPaused && countdown === undefined) {
+                const mins = parseInt(document.getElementById('timer-min').value) || 0;
+                const secs = parseInt(document.getElementById('timer-sec').value) || 0;
+                totalSeconds = (mins * 60) + secs;
+                if (totalSeconds <= 0) {
+                    alert("कृपया 0 से बड़ा समय डालें!");
+                    return;
+                }
+            }
+
+            isPaused = false;
+            displayTimer();
+
+            countdown = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(countdown);
+                    countdown = undefined;
+                    isPaused = true;
+                    document.getElementById('timer-display').textContent = "TIME UP! ⏰";
+                    alert("समय समाप्त हो गया है!");
+                    return;
+                }
+                totalSeconds--;
+                displayTimer();
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(countdown);
+            countdown = undefined;
+            isPaused = true;
+        }
+
+        function resetTimer() {
+            clearInterval(countdown);
+            countdown = undefined;
+            isPaused = true;
+            const mins = parseInt(document.getElementById('timer-min').value) || 0;
+            const secs = parseInt(document.getElementById('timer-sec').value) || 0;
+            totalSeconds = (mins * 60) + secs;
+            displayTimer();
+        }
+
+        // --- 3. SHAYARI SYSTEM ---
+        const shayaris = [
+            "\"ख्वाहिशों से नहीं गिरते हैं फूल झोली में, कर्म की शाख को हिलाना होगा... कुछ नहीं होगा अंधेरों को कोसने से, अपने हिस्से का दीया खुद ही जलाना होगा।\"",
+            "\"नसीब जिनके ऊंचे और मस्त होते हैं, इम्तिहान भी उनके ज़बरदस्त होते हैं।\"",
+            "\"मंज़िलें उन्हीं को मिलती हैं जिनके सपनों में जान होती है, पंखों से कुछ नहीं होता हौसलों से उड़ान होती है।\"",
+            "\"सफर में धूप तो होगी जो चल सको तो चलो, सभी हैं भीड़ में तुम भी निकल सको तो चलो।\"",
+            "\"जीत की खातिर बस जुनून चाहिए, जिसमें उबाल हो ऐसा खून चाहिए, यह आसमां भी आएगा ज़मीन पर, बस इरादों में जीत की गूँज चाहिए।\""
+        ];
+        let shayariIndex = 0;
+        function changeShayari() {
+            const textElem = document.getElementById('shayari-text');
+            textElem.style.opacity = 0;
+            setTimeout(() => {
+                shayariIndex = (shayariIndex + 1) % shayaris.length;
+                textElem.textContent = shayaris[shayariIndex];
+                textElem.style.opacity = 1;
+            }, 400);
+        }
+        setInterval(changeShayari, 12000);
+
+        // --- 4. MUSIC DYNAMIC PLAY ---
+        function handleAudioUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                document.getElementById('track-title').textContent = `🎵 Playing: ${file.name}`;
+                document.getElementById('main-audio').src = URL.createObjectURL(file);
+                document.getElementById('main-audio').play();
+            }
+        }
+
+        // --- 5. YOUTUBE SYSTEM ---
+        function loadYouTubeVideo() {
+            const urlInput = document.getElementById('yt-url').value.trim();
+            let videoId = '';
+            if (urlInput.includes('v=')) videoId = urlInput.split('v=')[1].split('&')[0];
+            else if (urlInput.includes('youtu.be/')) videoId = urlInput.split('youtu.be/')[1].split('?')[0];
+            else if (urlInput.includes('embed/')) videoId = urlInput.split('embed/')[1].split('?')[0];
+            
+            if (videoId) document.getElementById('yt-iframe').src = `https://www.youtube.com/embed/${videoId}`;
+            else alert('कृपया सही यूट्यूब URL पेस्ट करें!');
+        }
+    </script>
+</body>
+</html>
